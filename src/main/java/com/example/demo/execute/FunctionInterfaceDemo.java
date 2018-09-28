@@ -2,6 +2,7 @@ package com.example.demo.execute;
 
 import com.example.demo.entity.AccountOpt;
 
+import java.util.Arrays;
 import java.util.function.*;
 
 /**
@@ -15,8 +16,22 @@ public class FunctionInterfaceDemo {
 //        consumerDemo();
 //        supplierDemo();
 //        functionDemo();
+        myOperat();
     }
-    
+
+    private static void myOperat() {
+        AccountOpt opt = new AccountOpt();
+        int resultNum = opt.MathOperation(Arrays.asList(new Integer[]{1,5,8,9,15,9,7,9}), x -> {
+            Integer total = 1;
+           for(Integer i : x) {
+               total = total * i;
+           }
+           return total;
+        });
+
+        System.out.println(resultNum);
+    }
+
     /**
      * 函数型接口示例
      * 接收一个T类型的参数，返回一个R类型的结果
