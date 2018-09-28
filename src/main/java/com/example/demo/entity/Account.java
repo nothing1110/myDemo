@@ -2,6 +2,11 @@ package com.example.demo.entity;
 
 import java.util.Date;
 
+/**
+ * @Description: 账户相关信息操作
+ * @Author: zhuangf
+ * @Date: 2018/9/28
+ */
 public class Account {
     private String user;
     private Date time;
