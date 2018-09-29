@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import com.example.demo.service.PredicateDemo;
+
 import java.util.List;
 import java.util.function.Function;
 
@@ -9,17 +11,9 @@ import java.util.function.Function;
  * @Date: 2018/9/28
  */
 public class AccountOpt {
-    /**
-     * 实现断言型接口: Predicate<T>
-     * 实现FunctionalInterface原则
-     * 1、有且只有一个抽象方法
-     */
-    @FunctionalInterface
-    public interface PredicateDemo<T> {
-        Boolean isFlag(T t);
-    }
 
-    public Boolean isVIP(Integer num,PredicateDemo<Integer> predicate) {
+    public Boolean isVIP(Integer num, PredicateDemo<Integer> predicate) {
+        predicate.testDefault();
         return predicate.isFlag(num);
     }
 

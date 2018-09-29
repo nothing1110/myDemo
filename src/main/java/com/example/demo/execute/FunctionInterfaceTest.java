@@ -1,6 +1,7 @@
 package com.example.demo.execute;
 
 import com.example.demo.entity.AccountOpt;
+import com.example.demo.service.PredicateDemo;
 
 import java.util.Arrays;
 import java.util.function.*;
@@ -10,7 +11,7 @@ import java.util.function.*;
  * @Author: zhuangf
  * @Date: 2018/9/28
  */
-public class FunctionInterfaceDemo {
+public class FunctionInterfaceTest {
     public static void main(String[] args) {
 //        predicateDemo();
 //        consumerDemo();
@@ -30,6 +31,8 @@ public class FunctionInterfaceDemo {
         });
 
         System.out.println(resultNum);
+
+        opt.isVIP(50,x -> x>500);
     }
 
     /**
