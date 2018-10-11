@@ -9,7 +9,6 @@ import java.util.List;
 
 /**
  * 泛型用例
- *
  * @Author: zhuangf
  * @Date: 2018/10/10
  */
@@ -76,7 +75,6 @@ public class GenericityDemo {
 
     /**
      * T 为形参，具体命名可以任意指定
-     * 所有泛型类的类型参数在编译时都会被擦除
      * */
     private static class Foo<T> {
         private T data;
