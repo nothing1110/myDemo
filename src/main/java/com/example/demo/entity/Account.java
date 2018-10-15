@@ -12,6 +12,9 @@ public class Account {
     private Date time;
     private int sum ;
 
+    public Account() {
+    }
+
     public Account(String user, Date time, int sum) {
         this.user = user;
         this.time = time;

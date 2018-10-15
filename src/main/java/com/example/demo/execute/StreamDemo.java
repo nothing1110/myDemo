@@ -1,8 +1,10 @@
 package com.example.demo.execute;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.example.demo.entity.Account;
+
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -13,9 +15,12 @@ import java.util.stream.Stream;
  */
 public class StreamDemo {
     public static void main(String[] args) {
-//        streamSimple();
-//        createStream();
+//        streamSimple();//Stream简单示例
+//        createStream();//创建Stream
+//        streamIntermediate();//Stream常用中间操作
+        streamTerminal();//Stream常用聚合函数
     }
+
 
     /**
      * Stream创建方法
@@ -59,4 +64,79 @@ public class StreamDemo {
         /*Stream操作会产生结果，但不会修改其来源*/
         System.out.println("原List:"+numList);
     }
+
+    private static void streamIntermediate() {
+        List<String> strList = Arrays.asList(new String[]{"abc","a","bc","abcd"});
+        List<Integer> numList = Arrays.asList(new Integer[]{1,null,3,5,5,null,10});
+        //======map把一种类型的流转换为另外一种类型的流
+        System.out.println("小写转为大写:"+strList.stream().map(x -> x.toUpperCase()).collect(Collectors.toList()));
+        System.out.println("求平方:"+numList.stream().map(x -> {
+            if(x!=null) return x * x;
+                return 0;
+            }).collect(Collectors.toList()));
+
+        //======flatMap,流扁平化处理，每个元素转换得到的是Stream对象，会把子Stream中的元素压缩到父集合中
+        Stream<List<Integer>> intListStream = Stream.of(
+                Arrays.asList(new Integer[]{1,2,3,4}),
+                Arrays.asList(new Integer[]{5,6,7,8}),
+                Arrays.asList(new Integer[]{9,10,11,12}));
+//        System.out.println("多数组流:"+intListStream.collect(Collectors.toList()));//collect为结束操作，一个流只能执行一次
+        System.out.println("多数组形成一个流"+intListStream.flatMap(list -> list.stream()).collect(Collectors.toList()));
+        System.out.println("字符串数组拆分去重:"+
+                Arrays.stream(new String[]{"Hello","World"})
+                .map(w -> w.split(""))
+                .flatMap(Arrays::stream)
+                .distinct()
+                .collect(Collectors.toList())
+        );//["Hello","World"] --> [H, e, l, o, W, r, d]
+
+        //=======sorted方法，排序，可以传入自定义排序接口Comparator
+        //自动排序
+        System.out.println("自动排序:"+strList.stream().sorted().collect(Collectors.toList()));
+        //按照长度进行排序
+        System.out.println("按长度排序:"+strList.stream().sorted((x,y) -> {
+            if(x.length()>y.length()) {
+                return 1;
+            } else if (x.length()<y.length()) {
+                return -1;
+            }
+            return 0;
+        }).collect(Collectors.toList()));
+
+        //倒序(利用Comparator)
+        System.out.println("自动倒序:"+strList.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()));
+        System.out.println("按长度倒序:"+
+                strList.stream().sorted(Comparator.comparing(String::length).reversed()).collect(Collectors.toList()));
+
+        //======skip方法,跳过前n个数据
+        System.out.println("跳过一个数据:"+Stream.iterate(1,x->x+2).skip(1).limit(5).collect(Collectors.toList()));
+
+        //======concat方法，两个stream合并成一个stream
+        System.out.println("两stream合并:"+Stream.concat(strList.stream(),numList.stream()).collect(Collectors.toList()));
+
+    }
+
+    private static void streamTerminal() {
+        String[] strArr = new String[]{"b","ab","abc","abcd","abcde","b"};
+
+        //max、min最大最小值
+        Stream.of(strArr).max(Comparator.comparing(String::length)).ifPresent(System.out::println);
+        Stream.of(strArr).min(Comparator.comparing(String::length)).ifPresent(System.out::println);
+
+        //count求数量
+        System.out.println("数量："+Stream.of(strArr).count());
+
+        //findFirst 查找第一个满足条件的
+        System.out.println("首先满足要求："+Stream.of(strArr).filter(x -> x.length()>5).findFirst().orElse("nothing"));
+
+        //findAny 找到任何一个满足条件的；对并行流十分有效
+        //只要在任何片段发现了第一个匹配元素就会结束整个运算
+        System.out.println("任何一个满足要求:"+Stream.of(strArr).parallel().filter(x->x.length()>2).findAny().orElse("nothjing"));
+
+        //anyMatch 是否含有匹配条件的元素
+        System.out.println(Stream.of(strArr).anyMatch(x->x.startsWith("c")));
+
+
+    }
+
 }
