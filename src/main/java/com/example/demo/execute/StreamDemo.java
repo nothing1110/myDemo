@@ -117,9 +117,9 @@ public class StreamDemo {
     }
 
     private static void streamTerminal() {
-        String[] strArr = new String[]{"b","ab","abc","abcd","abcde","b"};
+        String[] strArr = new String[]{"b","ab","abc","abcd","abcde","c"};
 
-        //max、min最大最小值
+        //max、min最大最小值(只返回一个Optional值，需要注意)
         Stream.of(strArr).max(Comparator.comparing(String::length)).ifPresent(System.out::println);
         Stream.of(strArr).min(Comparator.comparing(String::length)).ifPresent(System.out::println);
 

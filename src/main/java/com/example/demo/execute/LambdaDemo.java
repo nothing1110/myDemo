@@ -17,15 +17,23 @@ public class LambdaDemo {
     }
 
     public static void testAccountSort() {
+        //先按用户降序，再按金额升序
         List<Account> accountList = new ArrayList<Account>();
         accountList.add(new Account("a",new Date(),100));
         accountList.add(new Account("c",new Date(),100));
         accountList.add(new Account("b",new Date(),980));
         accountList.add(new Account("a",new Date(),250));
         accountList.add(new Account("b",new Date(),90));
-        //先按用户降序，再按金额升序
+        /*
+         * System.out::println 为方法引用，可替代Lambda表达式
+         * 1.引用静态方法 Integer::sum
+         * 2.引用某个对象的方法 accountList::add
+         * 3.引用某个类的方法 Account::getUser
+         * 4.引用构造方法 HashMap::new
+         */
         accountList.sort(Comparator.comparing(Account::getUser).reversed().thenComparing(Account::getSum));
         accountList.forEach(System.out::println);
+
     }
 
     public static void tetsNumListSort() {
