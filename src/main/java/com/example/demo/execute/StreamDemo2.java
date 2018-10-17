@@ -16,6 +16,18 @@ import java.util.stream.Stream;
  * @Date: 2018/10/12
  */
 public class StreamDemo2 {
+    /**
+     * 根据java Stream 性能测试，结果如下
+     * 1.对于简单操作，比如最简单的遍历，Stream串行API性能明显差于显示迭代，但并行的Stream API能够发挥多核特性。
+     * 2.对于复杂操作，Stream串行API性能可以和手动实现的效果匹敌，在并行执行时Stream API效果远超手动实现。
+     *
+     * 处于性能考虑，使用建议
+     * 1. 对于简单操作推荐使用外部迭代手动实现；
+     * 2. 对于复杂操作，推荐使用Stream API；
+     * 3. 在多核情况下，推荐使用并行Stream API来发挥多核优势；
+     * 4.单核情况下不建议使用并行Stream API。
+     * @param args
+     */
     public static void main(String[] args) {
 //        reduceDemo();
 //        collectSimple();//collect简单示例
